@@ -1,6 +1,7 @@
 "use server"
 
 import prisma from "@/lib/prisma"
+import { Ticket } from "lucide-react"
 
 export async function checkAndAddUser(email: string, name: string) {
     if (!email) return
@@ -217,6 +218,56 @@ export async function createTicket(serviceId: string,nameComplete:string,pageNam
     }
 }
 
+
+export async function getPendingTicketsByEmail(email : string) {
+    try{
+        const company = await prisma.company.findUnique({
+            where: {
+                email:email
+            },
+            include : {
+                services : {
+                    include: {
+                        tickets : {
+                            where : {
+                                status : {
+                                    in: ["PENDING","CALL","IN_PROGRESS"]
+                                }
+                            },
+                            orderBy : {
+                                createdAt: "asc"
+                            },
+                            include : {
+                                post: true
+                            }
+                        }
+
+                    }
+                }
+            }
+        })
+
+        if(!company){
+           throw new Error(`Aucune entreprise trouvée avec le nom de la page : ${email}`)
+        }
+
+        const pendingTicket = company.services.flatMap((service) => 
+           service.tickets.map((ticket) =>({
+             ...ticket,
+             serviceName : service.name,
+             avgTime :service.avgTime
+           }))
+        )
+
+        return pendingTicket
+
+
+
+    }catch(error){
+      console.error(error)
+    }
+
+}
 
 
 

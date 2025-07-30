@@ -106,7 +106,9 @@ useEffect(()=>{
                 </div>
              ) :services.length === 0 ?(
                 <div>
-                     <EmptyState message={`Aucun service pour le moment`} IconComponent={`Telescope`}
+                     <EmptyState 
+                     message={`Aucun service pour le moment`} 
+                     IconComponent={`Telescope`}
                       />
                 </div>
 

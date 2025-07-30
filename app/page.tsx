@@ -12,7 +12,7 @@ export default function Home() {
   const {user} = useUser()
   const email = user?.primaryEmailAddress?.emailAddress
   const [tickets, setTickets] = useState<Ticket[]>([])
-
+  
   const fetchTickets = async () => {
     if(email){
       try {
@@ -41,8 +41,19 @@ export default function Home() {
       ):(
         <div className="grid grid-cols-1 gap-4">
           {tickets.map((ticket,index) =>{
+            const totalWaitTime= tickets
+            .slice(0,index)
+            .reduce((acc,prevTicket) => acc + prevTicket.avgTime,0)
+
+
+
             return(
-             <TicketComponent ticket={ticket} key={ticket.id}/>
+             <TicketComponent 
+             ticket={ticket} 
+             key={ticket.id}
+             totalWaitingTime={totalWaitTime}
+             index={index}
+             />
            )})}
           
         </div>

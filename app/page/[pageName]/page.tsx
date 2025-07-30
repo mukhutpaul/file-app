@@ -40,7 +40,7 @@ const page = ({params} : {params : Promise<{pageName : string}>}) => {
             
             const   ticketNum = await  createTicket(selectedServiceId,nameComplete,pageName || '')
             setSelectedServiceId(null)
-            setPageName("")
+            setNameComplete("")
         } catch (error) {
             
         }

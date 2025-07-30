@@ -108,3 +108,53 @@ export async function deleteSericeById(serviceId: string){
     }
 }
 
+export async function getCompanyName(email: string){
+
+    try {
+
+        const company = await prisma.company.findUnique({
+            where: {
+                email: email
+            },
+            select : {
+                pageName: true
+            }
+        })
+
+        if(company){
+            return  company.pageName
+
+        }
+        
+    } catch (error) {
+        console.error(error)
+        
+    }
+
+
+}
+
+export async function setCompanyPageName(email: string,pageName:string){
+    try {
+
+        const company = await prisma.company.findUnique({
+            where: {
+                email: email
+            }
+        })
+
+        await prisma.company.update({
+            where : {
+                email
+            },
+            data : {
+                pageName
+            }
+        })
+        
+    } catch (error) {
+        console.error(error)
+    }
+
+}
+

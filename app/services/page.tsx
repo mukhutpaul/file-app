@@ -5,7 +5,8 @@ import { useUser } from '@clerk/nextjs'
 import { createService, deleteSericeById, getServiceByEmail } from '../actions'
 import { Service } from '../generated/prisma'
 import Loading from '../components/Loading'
-import { Clock, Trash } from 'lucide-react'
+import { Clock, ClockArrowUp, Trash } from 'lucide-react'
+import EmptyState from '../components/EmptyState'
 
 const page = () => {
     const {user} = useUser()
@@ -81,7 +82,7 @@ useEffect(()=>{
                </div>
                            <span className='label-text'>Temps moyen du service</span>
             <label className="input input-sm w-full">
-                Temps moyen
+                <ClockArrowUp className='w-4 h-4'/>
                 <input 
                 type="number" 
                 value={avgTime}
@@ -105,7 +106,7 @@ useEffect(()=>{
                 </div>
              ) :services.length === 0 ?(
                 <div>
-                     
+                     <EmptyState message={`Aucun service pour le moment`} IconComponent={`Telescope`} />
                 </div>
 
              ):(

@@ -1,9 +1,10 @@
 "use client"
 import { UserButton, useUser } from '@clerk/nextjs'
-import { AudioWaveform, Menu, X } from 'lucide-react'
+import { AudioWaveform, GlobeLock, Menu, Settings, X } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { checkAndAddUser } from '../actions'
+import { checkAndAddUser, getCompanyName } from '../actions'
+import SettingModal from './SettingModal'
 
 const NavBar = () => {
 
@@ -11,6 +12,7 @@ const NavBar = () => {
     const email = user?.primaryEmailAddress?.emailAddress
 
     const [menuOpen, setMenuOpen] = useState(false)
+    const [pageName,setPageName] = useState<string |null>(null)
 
     const navLinks = [
         { href:"/",label:"Accueil"},
@@ -24,7 +26,12 @@ const NavBar = () => {
             try {      
                 if(email && user.fullName){
                // console.log("bonjour")
-                    await checkAndAddUser(email,user.fullName)      
+                    await checkAndAddUser(email,user.fullName)  
+                    const pageName = await getCompanyName(email) 
+                    if(pageName){
+                       setPageName(pageName) 
+                    }
+                      
                 }
             } catch (error) {
                 console.error(error)   
@@ -36,6 +43,10 @@ const NavBar = () => {
     const renderLinks = (className:string) => {
         return(
         <>
+        <button className="btn btn-sm btn-accent btn-circle" 
+        onClick={()=>(document.getElementById('my_modal_3') as HTMLDialogElement).showModal()}>
+            <Settings className='w-4 h-4'/>
+        </button>
            {
             navLinks.map(({href,label}) => (
                 <Link key={href} href={href} className={`${className} btn-sm`}>
@@ -44,6 +55,12 @@ const NavBar = () => {
 
             ))
            }
+
+           {pageName && (
+            <Link href={`/page/${pageName}`} className={`${className} btn-sm`}>
+                    <GlobeLock className='w-4 h-4'/>
+            </Link>
+           )}
         </>
         )
      }
@@ -84,7 +101,15 @@ const NavBar = () => {
            </div>
            {renderLinks("btn")}
        </div>
-    </div>
+
+        {/* You can open the modal using document.getElementById('ID').showModal() method */}
+        <SettingModal 
+        email={email} 
+        pageName={pageName} 
+        onPageNameChange={setPageName}/>
+</div>
+
+    
   )
 }
 

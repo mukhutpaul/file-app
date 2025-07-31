@@ -62,7 +62,6 @@ export default function Home() {
           </div>
 
         </div>
-
       </div>
       {tickets.length === 0 ? (
         <div>
@@ -77,8 +76,6 @@ export default function Home() {
             const totalWaitTime= tickets
             .slice(0,index)
             .reduce((acc,prevTicket) => acc + prevTicket.avgTime,0)
-
-
 
             return(
              <TicketComponent 

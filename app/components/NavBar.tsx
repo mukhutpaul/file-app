@@ -17,6 +17,7 @@ const NavBar = () => {
     const navLinks = [
         { href:"/",label:"Accueil"},
         { href:"/services",label:"Vos services"},
+        { href:"/post_list",label:"Vos postes"},
     ]
 
     useEffect(() =>{

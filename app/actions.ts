@@ -251,7 +251,7 @@ export async function getPendingTicketsByEmail(email : string) {
            throw new Error(`Aucune entreprise trouvée avec le nom de la page : ${email}`)
         }
 
-        const pendingTicket = company.services.flatMap((service) => 
+        let pendingTicket = company.services.flatMap((service) => 
            service.tickets.map((ticket) =>({
              ...ticket,
              serviceName : service.name,
@@ -259,8 +259,12 @@ export async function getPendingTicketsByEmail(email : string) {
            }))
         )
 
-        return pendingTicket
+        pendingTicket = pendingTicket.sort(
+            (a,b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        )
 
+        return pendingTicket
+ 
 
 
     }catch(error){

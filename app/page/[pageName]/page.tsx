@@ -10,6 +10,7 @@ const page = ({params} : {params : Promise<{pageName : string}>}) => {
 
     const[selectedServiceId, setSelectedServiceId] = useState<string | null>(null)
     const [nameComplete,setNameComplete] = useState<string>("")
+    const [ticketNums,setTicketNums] = useState<any[]>([])
 
     const resolveParamsAndFatchServices = async () =>{
         try {
@@ -41,6 +42,13 @@ const page = ({params} : {params : Promise<{pageName : string}>}) => {
             const   ticketNum = await  createTicket(selectedServiceId,nameComplete,pageName || '')
             setSelectedServiceId(null)
             setNameComplete("")
+
+            setTicketNums([...(ticketNums || []),ticketNum])
+            console.log(ticketNums)
+           
+
+            
+            
         } catch (error) {
             
         }

@@ -44,10 +44,7 @@ const page = ({params} : {params : Promise<{pageName : string}>}) => {
             setNameComplete("")
 
             setTicketNums([...(ticketNums || []),ticketNum])
-            console.log(ticketNums)
-           
-
-            
+            console.log(ticketNums)    
             
         } catch (error) {
             

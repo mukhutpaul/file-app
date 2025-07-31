@@ -55,7 +55,7 @@ const TicketComponent : FC<TickeComponentProps> = ({ticket,index,totalWaitingTim
             }
         }
 
-    },[])
+    },[ticket,totalWaitingTime])
   return (
         <div className='border p-5 border-base-300 rounded-xl flex flex-col space-y-2'>
 

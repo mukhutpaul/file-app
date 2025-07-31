@@ -18,6 +18,7 @@ const NavBar = () => {
         { href:"/",label:"Accueil"},
         { href:"/services",label:"Vos services"},
         { href:"/post_list",label:"Vos postes"},
+        { href:"/dashboard",label:"Tableau de bord"},
     ]
 
     useEffect(() =>{
